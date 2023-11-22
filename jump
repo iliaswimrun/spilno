@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Jump : MonoBehaviour
+{
+    [SerializeField]
+    Rigidbody Player;
+    [SerializeField]
+    Transform PlayerTr;
+    public bool _grounded = false;
+    public bool _onPlatform = false;
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && _grounded)
+        {
+            Player.AddForce(PlayerTr.up * 3500f);
+        }
+
+        if (_onPlatform == true)
+        {
+            _grounded = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        _grounded = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        _grounded = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Platform"))
+        {
+            _onPlatform = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Platform"))
+        {
+            _onPlatform = false;
+        }
+    }
+
+}
