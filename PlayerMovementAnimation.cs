@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementAnimation : MonoBehaviour
 {
     [SerializeField] private float speed;
     private Rigidbody2D body;
