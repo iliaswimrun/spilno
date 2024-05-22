@@ -1,48 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] Transform followTarget;
+    //Room camera
+    [SerializeField] private float speed;
+    private float currentPosX;
+    private Vector3 velocity = Vector3.zero;
 
-    [SerializeField] float rotationSpeed = 2;
+    //Follow player
+    [SerializeField] private Transform player;
+    [SerializeField] private float aheadDistance;
+    [SerializeField] private float cameraSpeed;
+    private float lookAhead;
 
-    [SerializeField] float distance = 5;
-
-    [SerializeField] float minVerticalAngle = -45;
-
-    [SerializeField] float maxVerticalAngle = 45;
-
-    [SerializeField] Vector2 framingOffset;
-
-    [SerializeField] bool invertX;
-
-    [SerializeField] bool invertY;
-
-    float rotationX;
-    float rotationY;
-    float invertXVal;
-    float invertYVal;
-
-    private void Start()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
     private void Update()
     {
-        invertXVal = (invertX) ? -1 : 1;
-        invertYVal = (invertY) ? -1 : 1;
-        rotationY += Input.GetAxis("Mouse X") * invertXVal * rotationSpeed;
-        rotationX += Input.GetAxis("Mouse Y") * invertYVal * rotationSpeed;
-        rotationX = Mathf.Clamp(rotationX, minVerticalAngle, maxVerticalAngle);
+        //Room camera
+        transform.position = Vector3.SmoothDamp(transform.position, new Vector3(currentPosX, transform.position.y, transform.position.z), ref velocity, speed);
 
-        var targetRotation = Quaternion.Euler(rotationX, rotationY, 0);
+        //Follow player
+        //transform.position = new Vector3(player.position.x + lookAhead, transform.position.y, transform.position.z);
+        //lookAhead = Mathf.Lerp(lookAhead, (aheadDistance * player.localScale.x), Time.deltaTime * cameraSpeed);
+    }
 
-        var focusPosition = followTarget.position + new Vector3(framingOffset.x, framingOffset.y);
-
-        transform.position = focusPosition - targetRotation * new Vector3(0, 0, distance);
-        transform.rotation = targetRotation;
+    public void MoveToNewRoom(Transform _newRoom)
+    {
+        currentPosX = _newRoom.position.x;
     }
 }
