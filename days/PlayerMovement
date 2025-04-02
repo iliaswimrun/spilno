@@ -18,4 +18,16 @@ public class PlayerMovement : MonoBehaviour
         Vector3 movement = new Vector3(moveX, 0, moveZ) * speed;
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
     }
+
+int collected = 0;
+
+void OnTriggerEnter(Collider other)
+{
+    if (other.CompareTag("Pickup"))
+    {
+        collected++;
+        Destroy(other.gameObject);
+        Debug.Log("Зібрано: " + collected);
+    }
+}
 }
