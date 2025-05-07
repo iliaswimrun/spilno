@@ -1,6 +1,6 @@
-using UnityEngine;
+tedusing UnityEngine;
 
-public class DestroyOnPlayerTouch : MonoBehaviour
+public class deleted : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
